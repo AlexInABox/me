@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<script>
+    import data from './data.json';
+    var heartRate;
+    var heartRateInterval = setInterval(function () {
+        heartRate = data.heartRate;
+        document.getElementById("heartRate").innerHTML = heartRate;
+    }, 1000);
+</script>
+
+
+<head>
+    <title>me, myself and I</title>
+</head>
+
+<body>
+    <h1>Here goes all of my health data:</h1>
+    <p>My current Heart Rate is: <span id="heartRate">0</span></p>
+</body>
+
+</html>

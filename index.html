@@ -4,7 +4,7 @@
 <script type="text/javascript">
     var data;
     main();
-    setInterval(function () { main() }, 1000);
+    setInterval(function () { main() }, 5000);
 
     async function main() {
         data = await fetchData();
@@ -25,6 +25,8 @@
     async function patchContent() {
         console.log("patching content");
         document.getElementById("heartRate").innerHTML = data.heartRate;
+        document.getElementById("oxygenSaturation").innerHTML = data.oxygenSaturation;
+        document.getElementById("speed").innerHTML = data.speed;
     }
 </script>
 
@@ -36,6 +38,9 @@
 <body>
     <h1>Here goes all of my health data:</h1>
     <p>My current Heart Rate is: <span id="heartRate">0</span></p>
+    <p>My current Blood oxygenSaturation is: <span id="oxygenSaturation">0</span></p>
+    <p>My current Speed is: <span id="speed">0</span></p>
+
 </body>
 
 </html>

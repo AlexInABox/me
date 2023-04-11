@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
 
-<script>
-    import data from './data.json';
-    var heartRate;
-    var heartRateInterval = setInterval(function () {
-        heartRate = data.heartRate;
-        document.getElementById("heartRate").innerHTML = heartRate;
-    }, 1000);
+<script type="text/javascript">
+    var data;
+    main();
+    setInterval(function () { main() }, 1000);
+
+    async function main() {
+        data = await fetchData();
+        await patchContent();
+    }
+
+    async function fetchData() {
+        console.log("getting data");
+        return new Promise((obj) => {
+            fetch('./data.json')
+                .then(res => res.json())
+                .then(data => {
+                    return obj(data)
+                })
+        })
+    }
+
+    async function patchContent() {
+        console.log("patching content");
+        document.getElementById("heartRate").innerHTML = data.heartRate;
+    }
 </script>
 
 

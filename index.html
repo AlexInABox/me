@@ -14,7 +14,7 @@
     async function fetchData() {
         console.log("getting data");
         return new Promise((obj) => {
-            fetch('./data.json')
+            fetch('./custom-hds/healthData.json')
                 .then(res => res.json())
                 .then(data => {
                     return obj(data)

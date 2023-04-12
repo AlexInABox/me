@@ -32,6 +32,7 @@
 
     function updateOxygenSaturationBar(value) {
 
+        value = value * 100;
         value++;
         //animate the transition to the new value
         var elem = document.getElementById("oxygenSaturation-bar");

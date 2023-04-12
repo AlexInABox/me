@@ -39,24 +39,18 @@
         var width = document.getElementById("oxygenSaturation-bar").style.width;
         var width = width.substring(0, width.length - 1);
         var id = setInterval(frame, 10);
-        console.log("updating oxygen saturation bar form " + width + " to " + value + "%");
         function frame() {
             if (width > value) {
-                console.log("decreasing from " + width + " to " + value + "%");
                 width--;
                 elem.style.width = (width) + '%';
-
                 document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
             }
             else if (width < value) {
-                console.log("increasing from " + width + " to " + value + "%");
                 width++;
                 elem.style.width = (width) + '%';
-
                 document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
             }
             else {
-                console.log("done");
                 clearInterval(id);
             }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <script type="text/javascript">
     var data;
@@ -25,22 +26,137 @@
     async function patchContent() {
         console.log("patching content");
         document.getElementById("heartRate").innerHTML = data.heartRate;
-        document.getElementById("oxygenSaturation").innerHTML = data.oxygenSaturation;
+        updateOxygenSaturationBar(data.oxygenSaturation);
         document.getElementById("speed").innerHTML = data.speed;
+    }
+
+    function updateOxygenSaturationBar(value) {
+
+        value++;
+        //animate the transition to the new value
+        var elem = document.getElementById("oxygenSaturation-bar");
+        var width = document.getElementById("oxygenSaturation-bar").style.width;
+        var width = width.substring(0, width.length - 1);
+        var id = setInterval(frame, 10);
+        console.log("updating oxygen saturation bar form " + width + " to " + value + "%");
+        function frame() {
+            if (width > value) {
+                console.log("decreasing from " + width + " to " + value + "%");
+                elem.style.width = (width--) + '%';
+                width = width--;
+                document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
+            }
+            else if (width < value) {
+                console.log("increasing from " + width + " to " + value + "%");
+                elem.style.width = (width++) + '%';
+                width = width++;
+                document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
+            }
+            else {
+                console.log("done");
+                clearInterval(id);
+            }
+
+        }
     }
 </script>
 
-
 <head>
-    <title>me, myself and I</title>
+    <title>Data Entries</title>
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+            background-color: #EEE;
+        }
+
+        header {
+            background-color: #FFF;
+            padding: 20px;
+            box-shadow: 0px 0px 5px #888;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .widget {
+            display: inline-block;
+            width: 400px;
+            height: 100px;
+            background-color: #FFF;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0px 0px 5px #888;
+        }
+
+        .widget-progressbar {
+            display: inline-block;
+            width: 400px;
+            height: 100px;
+            background-color: #FFF;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0px 0px 5px #888;
+        }
+
+        div.card {
+
+            width: 80%;
+            height: 80%;
+            max-width: 400px;
+            max-height: 600px;
+            margin: auto;
+            scale: auto;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 5px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        }
+
+        div.container {
+            text-align: center;
+            height: fit-content;
+            max-height: 30%;
+            font-size: auto;
+            padding: 10px;
+        }
+
+        ::-moz-progress-bar {
+            background-color: #00FF00;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Here goes all of my health data:</h1>
-    <p>My current Heart Rate is: <span id="heartRate">0</span></p>
-    <p>My current Blood oxygenSaturation is: <span id="oxygenSaturation">0</span></p>
-    <p>My current Speed is: <span id="speed">0</span></p>
-
-</body>
+    <header>
+        <h1>Health Data</h1>
+    </header>
+    <main>
+        <div class="card">
+            <div class="container">
+                <h2>Heart Rate</h2>
+                <p id="heartRate">0</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="container">
+                <h2>Oxygen Saturation</h2>
+                <div class="w3-light-grey w3-round">
+                    <div id="oxygenSaturation-bar" class="w3-container w3-round w3-blue" style="width: 0%;">0%</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="container">
+                <h2>Speed</h2>
+                <p id="speed">0</p>
+            </div>
+        </div>
+    </main>
 
 </html>

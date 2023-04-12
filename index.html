@@ -42,14 +42,16 @@
         function frame() {
             if (width > value) {
                 console.log("decreasing from " + width + " to " + value + "%");
-                elem.style.width = (width - 1) + '%';
                 width--;
+                elem.style.width = (width) + '%';
+
                 document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
             }
             else if (width < value) {
                 console.log("increasing from " + width + " to " + value + "%");
-                elem.style.width = (width + 1) + '%';
                 width++;
+                elem.style.width = (width) + '%';
+
                 document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
             }
             else {

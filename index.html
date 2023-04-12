@@ -33,7 +33,6 @@
     function updateOxygenSaturationBar(value) {
 
         value = value * 100;
-        value++;
         //animate the transition to the new value
         var elem = document.getElementById("oxygenSaturation-bar");
         var width = document.getElementById("oxygenSaturation-bar").style.width;
@@ -43,14 +42,14 @@
         function frame() {
             if (width > value) {
                 console.log("decreasing from " + width + " to " + value + "%");
-                elem.style.width = (width--) + '%';
-                width = width--;
+                elem.style.width = (width - 1) + '%';
+                width--;
                 document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
             }
             else if (width < value) {
                 console.log("increasing from " + width + " to " + value + "%");
-                elem.style.width = (width++) + '%';
-                width = width++;
+                elem.style.width = (width + 1) + '%';
+                width++;
                 document.getElementById("oxygenSaturation-bar").innerHTML = elem.style.width;
             }
             else {

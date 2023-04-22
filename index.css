@@ -1,0 +1,76 @@
+body {
+    font-family: Roboto, sans-serif;
+    background-color: rgba(135, 31, 31, 0.369);
+    color: #fff;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    gap: 10px;
+    background: url(../assets/backround.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card {
+    background: rgba(60, 59, 59, 0.6);
+    box-shadow: 0 8px 32px 0 rgba(135, 31, 31, 0.369);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.212);
+    padding: 12px;
+    width: 50%;
+    min-width: 300px;
+}
+
+.card-title {
+    font-size: 12px;
+    font-weight: thin;
+    margin-bottom: 16px;
+    font-family: monospace;
+    opacity: 0.5;
+}
+
+.meter {
+    height: 20px;
+    position: relative;
+    background: #555;
+    border-radius: 25px;
+    padding: 10px;
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.meter>span {
+    display: block;
+    height: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: rgb(43, 194, 83);
+    background-image: linear-gradient(center bottom,
+            rgb(43, 194, 83) 37%,
+            rgb(84, 240, 84) 69%);
+    box-shadow:
+        inset 0 2px 9px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.orange>span {
+    background-color: #f1a165;
+    background-image: linear-gradient(to bottom, #f1a165, #f36d0a);
+}
+
+.red>span {
+    background-color: #f0a3a3;
+    background-image: linear-gradient(to bottom, #f0a3a3, #f42323);
+}

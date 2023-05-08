@@ -2,6 +2,7 @@
 <html>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="./index.css">
+<link rel="stylesheet" href="./radial-progress-bar.css">
 <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -33,6 +34,35 @@
             <div class="card-title">@AlexInABox > health > speed</div>
             <div class="container">
                 <p id="speed">0.0 m/s</p>
+            </div>
+        </div>
+        <div id="valorant" class="card">
+            <div class="card-title">@AlexInABox > games > valorant</div>
+            <div class="container" style="text-align: center;">
+                <h1 id="valorant.username" style="margin-bottom: 0px; padding-bottom: 0px">Chiwooo#cutie</h1>
+                <div>
+                    <svg id="valorant.progress" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+                        preserveAspectRatio="none" data-value="89">
+                        <circle r="45" cx="50" cy="50" />
+                        <path id="valorant.mmrMeter" class="meter" d="M5,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="282.78302001953125"
+                            stroke-dasharray="282.78302001953125" />
+                        <image id="valorant.rankIcon" x="20" y="20" width="60" height="60"
+                            xlink:href="https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/12/largeicon.png" />
+                    </svg>
+                </div>
+                <h3 id="valorant.rank" style="margin-top: 0px; padding-top: 0px">Iron 1 - 10RR</h3>
+            </div>
+        </div>
+        <div id="netflix" class="card">
+            <div class="card-title">@AlexInABox > other > netflix</div>
+            <div class="container"
+                style="position: relative; width: 100%; height: 0; padding-bottom: 100%; overflow: hidden;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <div id="netflixShowName" class="box"
+                        style="white-space: pre-line; position: absolute; top: 110%; left: 50%; transform: translateX(-50%); width: auto; height: auto; background-color: rgba(255, 255, 255, 0.5); border-radius: 10px 10px 10px 10px; display: inline-block; white-space: nowrap; padding: 2px 10px; z-index: 1;">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card">

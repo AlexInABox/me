@@ -11,6 +11,8 @@ async function initialize() {
     data = await fetchData();
     await patchContent();
     getLatestPositionSnapshot();
+    getLatestNetflixInformation();
+    getLatestValorantInformation()
     main();
 }
 setInterval(function () { main() }, 5000);
@@ -66,6 +68,30 @@ function updateOxygenSaturationBar(value) {
     }
 }
 
+function updateAllMeters() {
+    // Get all the Meters
+    const meters = document.querySelectorAll('svg[data-value] .meter');
+
+    meters.forEach((path) => {
+        // Get the length of the path
+        let length = path.getTotalLength();
+
+        // console.log(length);
+
+        // Just need to set this once manually on the .meter element and then can be commented out
+        // path.style.strokeDashoffset = length;
+        // path.style.strokeDasharray = length;
+
+        // Get the value of the meter
+        let value = parseInt(path.parentNode.getAttribute('data-value'));
+        // Calculate the percentage of the total length
+        let to = length * ((100 - value) / 100);
+        // Trigger Layout in Safari hack https://jakearchibald.com/2013/animated-line-drawing-svg/
+        path.getBoundingClientRect();
+        // Set the Offset
+        path.style.strokeDashoffset = Math.max(0, to); path.nextElementSibling.textContent = `${value}%`;
+    });
+}
 function getLatestPositionSnapshot() {
     //set src of mapbox id to mapbox api server location using the longitude and latitude in the localData object
     document.getElementById("mapbox").src = `https://api.mapbox.com/styles/v1/alexinabox/clgw8e3rx003j01qth2z003ms/draft/static/${data.location.longitude},${data.location.latitude},11.3,0,35/500x500?access_token=pk.eyJ1IjoiYWxleGluYWJveCIsImEiOiJjbGd3ODh2YmswOTd1M2hwZ2RyY3E1Nnh6In0.YT0f1GOC9fGnLpS67CAOIw`;
@@ -75,4 +101,67 @@ function getLatestPositionSnapshot() {
 function selectRandomMemoji() {
     var randomMemoji = Math.floor(Math.random() * 3) + 1; //random number between 1 and 3
     document.getElementById("memoji").src = `./assets/memoji_${randomMemoji}.png`;
+}
+
+function getLatestNetflixInformation() {
+    document.getElementById("netflixShowName").innerHTML = `🎬 ${data.netflix.lastWatched.title}`;
+    document.getElementById("netflixShowName").href = `https://www.netflix.com/title/${data.netflix.lastWatched.showId}`;
+}
+
+async function getLatestValorantInformation() {
+    document.getElementById("valorant.username").innerHTML = `${data.valorant.username}`;
+    var elo = (data.valorant.elo).substring(0, data.valorant.elo.length - 2);
+    console.log(elo);
+    document.getElementById("valorant.progress").setAttribute("data-value", elo);
+    updateAllMeters();
+    document.getElementById("valorant.rank").innerHTML = `${data.valorant.rank} - ${data.valorant.elo}`;
+    document.getElementById("valorant.rankIcon").setAttribute("xlink:href", await fetchRankIcon(data.valorant.rank));
+    document.getElementById("valorant.mmrMeter").style.stroke = getColorForRank(data.valorant.rank);
+}
+
+async function fetchRankIcon(rank) {
+    //Send a request to the valorant api to get all the ranks with their icons
+    //then return the icon for the rank that is passed in as a parameter
+    //API url to get all the ranks: https://valorant-api.com/v1/competitivetiers
+    var rankList;
+    return new Promise((obj) => {
+        fetch('https://valorant-api.com/v1/competitivetiers')
+            .then(res => res.json())
+            .then(data => {
+                rankList = data;
+                for (var i = 0; i < rankList.data[rankList.data.length - 1].tiers.length; i++) {
+                    if (rankList.data[rankList.data.length - 1].tiers[i].tierName.toLowerCase() === rank.toLowerCase()) {
+                        return obj(rankList.data[rankList.data.length - 1].tiers[i].largeIcon);
+                    }
+                }
+            })
+    })
+}
+
+function getColorForRank(rank) {
+    //Special case for radiant
+    if (rank.toLowerCase() === "radiant") {
+        return "#ECE0B5";
+    }
+    var rank = rank.toLowerCase().substring(0, rank.length - 2); //Gold 1 -> gold
+    switch (rank) {
+        case "iron":
+            return "#3D3D3D";
+        case "bronze":
+            return "#A4845C";
+        case "silver":
+            return "#FEFEFE";
+        case "gold":
+            return "#DB8E21";
+        case "platinum":
+            return "#3597A7";
+        case "diamond":
+            return "#A770F1";
+        case "ascendant":
+            return "#23A361";
+        case "immortal":
+            return "#8A1940";
+        default:
+            return "#000000";
+    }
 }

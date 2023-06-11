@@ -11,6 +11,14 @@ body {
         color: #fff;
         zoom: 200%;
     }
+
+    .card-title {
+        font-size: 28px;
+        font-weight: thin;
+        margin-bottom: 16px;
+        font-family: monospace;
+        opacity: 0.5;
+    }
 }
 
 @media screen and (orientation:landscape) {
@@ -18,6 +26,14 @@ body {
         font-family: Roboto, sans-serif;
         background-color: rgba(135, 31, 31, 0.369);
         color: #fff;
+    }
+
+    .card-title {
+        font-size: 12px;
+        font-weight: thin;
+        margin-bottom: 16px;
+        font-family: monospace;
+        opacity: 0.5;
     }
 }
 
@@ -45,14 +61,6 @@ body {
     padding: 12px;
     width: 400px;
     min-width: 300px;
-}
-
-.card-title {
-    font-size: 12px;
-    font-weight: thin;
-    margin-bottom: 16px;
-    font-family: monospace;
-    opacity: 0.5;
 }
 
 .meter {

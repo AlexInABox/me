@@ -4,18 +4,35 @@ body {
     color: #fff;
 }
 
+@media screen and (orientation:portrait) {
+    body {
+        font-family: Roboto, sans-serif;
+        background-color: rgba(135, 31, 31, 0.369);
+        color: #fff;
+        zoom: 200%;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    body {
+        font-family: Roboto, sans-serif;
+        background-color: rgba(135, 31, 31, 0.369);
+        color: #fff;
+    }
+}
+
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 100vh;
-    gap: 10px;
+    padding: 20px;
     background: url(./assets/backround.gif);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    overflow-y: auto;
 }
 
 .card {
@@ -138,10 +155,4 @@ body {
     to {
         transform: none;
     }
-}
-
-.emoji span {
-    display: inline-block;
-    width: 100px;
-    text-align: left;
 }

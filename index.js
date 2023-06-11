@@ -165,3 +165,19 @@ function getColorForRank(rank) {
             return "#000000";
     }
 }
+
+//on scroll, call the function to change the background position
+//but using $ to select the window object requires jquery that we dont have therefore we need to use vanilla js
+/*
+window.addEventListener('scroll', function (e) {
+    // only do this if in portrait mode
+    if (window.innerWidth > window.innerHeight) { //landscape
+        return;
+    }
+    scrolledY();
+});
+function scrolledY() {
+    var scrolledY = window.pageYOffset;
+    document.body.style.backgroundPosition = '0 ' + scrolledY + 'px';
+}
+*/

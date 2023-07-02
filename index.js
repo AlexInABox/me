@@ -26,7 +26,7 @@ async function main() {
 async function fetchData() {
     console.log("getting data");
     return new Promise((obj) => {
-        fetch('./custom-hds/healthData.json')
+        fetch('./custom-hds/presence.json')
             .then(res => res.json())
             .then(data => {
                 return obj(data)
@@ -36,9 +36,9 @@ async function fetchData() {
 
 async function patchContent() {
     console.log("patching content");
-    document.getElementById("heartRate").innerHTML = data.heartRate + " BPM";
-    updateOxygenSaturationBar(data.oxygenSaturation);
-    document.getElementById("speed").innerHTML = data.speed + " m/s";
+    document.getElementById("heartRate").innerHTML = data.health.heartRate + " BPM";
+    updateOxygenSaturationBar(data.health.oxygenSaturation);
+    document.getElementById("speed").innerHTML = data.health.speed + " m/s";
 }
 
 function updateOxygenSaturationBar(value) {
@@ -110,11 +110,11 @@ function getLatestNetflixInformation() {
 
 async function getLatestValorantInformation() {
     document.getElementById("valorant.username").innerHTML = `${data.valorant.username}`;
-    var elo = (data.valorant.elo).substring(0, data.valorant.elo.length - 2);
-    console.log(elo);
-    document.getElementById("valorant.progress").setAttribute("data-value", elo);
+    var rr = (data.valorant.rr);
+    console.log(rr);
+    document.getElementById("valorant.progress").setAttribute("data-value", rr);
     updateAllMeters();
-    document.getElementById("valorant.rank").innerHTML = `${data.valorant.rank} - ${data.valorant.elo}`;
+    document.getElementById("valorant.rank").innerHTML = `${data.valorant.rank} - ${data.valorant.rr} RR`;
     document.getElementById("valorant.rankIcon").setAttribute("xlink:href", await fetchRankIcon(data.valorant.rank));
     document.getElementById("valorant.mmrMeter").style.stroke = getColorForRank(data.valorant.rank);
 }

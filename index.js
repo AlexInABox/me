@@ -9,10 +9,11 @@ initialize();
 async function initialize() {
     selectRandomMemoji();
     data = await fetchData();
-    await patchContent();
+    await patchLiveContent();
     getLatestPositionSnapshot();
     getLatestNetflixInformation();
-    getLatestValorantInformation()
+    getLatestValorantInformation();
+    setLastUpdatedTime();
     main();
 }
 setInterval(function () { main() }, 5000);
@@ -20,7 +21,7 @@ setInterval(function () { main() }, 5000);
 
 async function main() {
     data = await fetchData();
-    await patchContent();
+    await patchLiveContent();
 }
 
 async function fetchData() {
@@ -34,7 +35,7 @@ async function fetchData() {
     })
 }
 
-async function patchContent() {
+async function patchLiveContent() {
     console.log("patching content");
     document.getElementById("heartRate").innerHTML = data.health.heartRate + " BPM";
     updateOxygenSaturationBar(data.health.oxygenSaturation);
@@ -183,3 +184,113 @@ function scrolledY() {
     document.body.style.backgroundPosition = '0 ' + scrolledY + 'px';
 }
 */
+
+function setLastUpdatedTime() {
+    var dateNow = new Date();
+    var locationDate = new Date(data.location.lastUpdate);
+    var netflixDate = new Date(data.netflix.lastWatched.lastUpdate);
+    var valorantDate = new Date(data.valorant.lastUpdate);
+
+    var locationDiff = Math.abs(dateNow - locationDate);
+    var netflixDiff = Math.abs(dateNow - netflixDate);
+    var valorantDiff = Math.abs(dateNow - valorantDate);
+
+    var locationDiffSeconds = Math.floor(locationDiff / 1000);
+    var netflixDiffSeconds = Math.floor(netflixDiff / 1000);
+    var valorantDiffSeconds = Math.floor(valorantDiff / 1000);
+
+    setLastUpdateTimeForLiveData();
+
+    if (locationDiffSeconds < 60) {
+        document.getElementById("locationLastUpdated").innerHTML = `${locationDiffSeconds} seconds ago`;
+    }
+    else if (locationDiffSeconds < 3600) {
+        document.getElementById("locationLastUpdated").innerHTML = `${Math.floor(locationDiffSeconds / 60)} minutes ago`;
+    }
+    else if (locationDiffSeconds < 86400) {
+        document.getElementById("locationLastUpdated").innerHTML = `${Math.floor(locationDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("locationLastUpdated").innerHTML = `${Math.floor(locationDiffSeconds / 86400)} days ago`;
+    }
+
+    if (netflixDiffSeconds < 60) {
+        document.getElementById("netflixLastUpdated").innerHTML = `${netflixDiffSeconds} seconds ago`;
+    }
+    else if (netflixDiffSeconds < 3600) {
+        document.getElementById("netflixLastUpdated").innerHTML = `${Math.floor(netflixDiffSeconds / 60)} minutes ago`;
+    }
+    else if (netflixDiffSeconds < 86400) {
+        document.getElementById("netflixLastUpdated").innerHTML = `${Math.floor(netflixDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("netflixLastUpdated").innerHTML = `${Math.floor(netflixDiffSeconds / 86400)} days ago`;
+    }
+
+    if (valorantDiffSeconds < 60) {
+        document.getElementById("valorantLastUpdated").innerHTML = `${valorantDiffSeconds} seconds ago`;
+    }
+    else if (valorantDiffSeconds < 3600) {
+        document.getElementById("valorantLastUpdated").innerHTML = `${Math.floor(valorantDiffSeconds / 60)} minutes ago`;
+    }
+    else if (valorantDiffSeconds < 86400) {
+        document.getElementById("valorantLastUpdated").innerHTML = `${Math.floor(valorantDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("valorantLastUpdated").innerHTML = `${Math.floor(valorantDiffSeconds / 86400)} days ago`;
+    }
+}
+
+function setLastUpdateTimeForLiveData() {
+    var dateNow = new Date();
+    var heartRateDate = new Date(data.health.lastUpdate.heartRate);
+    var oxygenSaturationDate = new Date(data.health.lastUpdate.oxygenSaturation);
+    var speedDate = new Date(data.health.lastUpdate.speed);
+
+    var heartRateDiff = Math.abs(dateNow - heartRateDate);
+    var oxygenSaturationDiff = Math.abs(dateNow - oxygenSaturationDate);
+    var speedDiff = Math.abs(dateNow - speedDate);
+
+    var heartRateDiffSeconds = Math.floor(heartRateDiff / 1000);
+    var oxygenSaturationDiffSeconds = Math.floor(oxygenSaturationDiff / 1000);
+    var speedDiffSeconds = Math.floor(speedDiff / 1000);
+
+    if (heartRateDiffSeconds < 60) {
+        document.getElementById("heartRateLastUpdated").innerHTML = `${heartRateDiffSeconds} seconds ago`;
+    }
+    else if (heartRateDiffSeconds < 3600) {
+        document.getElementById("heartRateLastUpdated").innerHTML = `${Math.floor(heartRateDiffSeconds / 60)} minutes ago`;
+    }
+    else if (heartRateDiffSeconds < 86400) {
+        document.getElementById("heartRateLastUpdated").innerHTML = `${Math.floor(heartRateDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("heartRateLastUpdated").innerHTML = `${Math.floor(heartRateDiffSeconds / 86400)} days ago`;
+    }
+
+    if (oxygenSaturationDiffSeconds < 60) {
+        document.getElementById("oxygenSaturationLastUpdated").innerHTML = `${oxygenSaturationDiffSeconds} seconds ago`;
+    }
+    else if (oxygenSaturationDiffSeconds < 3600) {
+        document.getElementById("oxygenSaturationLastUpdated").innerHTML = `${Math.floor(oxygenSaturationDiffSeconds / 60)} minutes ago`;
+    }
+    else if (oxygenSaturationDiffSeconds < 86400) {
+        document.getElementById("oxygenSaturationLastUpdated").innerHTML = `${Math.floor(oxygenSaturationDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("oxygenSaturationLastUpdated").innerHTML = `${Math.floor(oxygenSaturationDiffSeconds / 86400)} days ago`;
+    }
+
+    if (speedDiffSeconds < 60) {
+        document.getElementById("speedLastUpdated").innerHTML = `${speedDiffSeconds} seconds ago`;
+    }
+    else if (speedDiffSeconds < 3600) {
+        document.getElementById("speedLastUpdated").innerHTML = `${Math.floor(speedDiffSeconds / 60)} minutes ago`;
+    }
+    else if (speedDiffSeconds < 86400) {
+        document.getElementById("speedLastUpdated").innerHTML = `${Math.floor(speedDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("speedLastUpdated").innerHTML = `${Math.floor(speedDiffSeconds / 86400)} days ago`;
+    }
+}

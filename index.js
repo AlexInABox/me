@@ -106,6 +106,8 @@ function selectRandomMemoji() {
 function getLatestNetflixInformation() {
     document.getElementById("netflixShowName").innerHTML = `🎬 ${data.netflix.lastWatched.title}`;
     document.getElementById("netflixShowName").href = `https://www.netflix.com/title/${data.netflix.lastWatched.showId}`;
+    document.getElementById("netflixCover").src = data.netflix.lastWatched.defaultImage;
+    document.getElementById("netflixCoverLink").href = `https://www.netflix.com/title/${data.netflix.lastWatched.showId}`;
 }
 
 async function getLatestValorantInformation() {

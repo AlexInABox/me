@@ -5,6 +5,8 @@ var localData = {
     "latitude": 52.5167,
     "longitude": 13.3833,
 }
+
+var lastNetflixShowId = "";
 initialize();
 async function initialize() {
     selectRandomMemoji();
@@ -22,6 +24,7 @@ setInterval(function () { main() }, 5000);
 async function main() {
     data = await fetchData();
     await patchLiveContent();
+    await patchRegularContent();
 }
 
 async function fetchData() {
@@ -40,6 +43,25 @@ async function patchLiveContent() {
     document.getElementById("heartRate").innerHTML = data.health.heartRate + " BPM";
     updateOxygenSaturationBar(data.health.oxygenSaturation);
     document.getElementById("speed").innerHTML = data.health.speed + " m/s";
+}
+
+async function patchRegularContent() {
+    if (data.location.district !== localData.district || data.location.city !== localData.city) {
+        localData.district = data.location.district;
+        localData.city = data.location.city;
+        getLatestPositionSnapshot();
+        console.log("location changed");
+    }
+    if (data.netflix.lastWatched.showId !== lastNetflixShowId) {
+        lastNetflixShowId = data.netflix.lastWatched.showId;
+        getLatestNetflixInformation();
+        console.log("netflix changed");
+    }
+    if (data.valorant.username !== document.getElementById("valorant.username").innerHTML || data.valorant.rank + " - " + data.valorant.rr + " RR" !== document.getElementById("valorant.rank").innerHTML) {
+        getLatestValorantInformation();
+        console.log("valorant changed");
+    }
+    setLastUpdatedTime();
 }
 
 function updateOxygenSaturationBar(value) {

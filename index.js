@@ -15,6 +15,8 @@ async function initialize() {
     getLatestPositionSnapshot();
     getLatestNetflixInformation();
     getLatestValorantInformation();
+    getLatestYouTubeVideoInformation();
+    getLatestYouTubeMusicInformation();
     setLastUpdatedTime();
     main();
 }
@@ -61,7 +63,14 @@ async function patchRegularContent() {
         getLatestValorantInformation();
         console.log("valorant changed");
     }
-    setLastUpdatedTime();
+    if (data.youtube.video.url !== document.getElementById("youtubeVideoURL").href) {
+        getLatestYouTubeVideoInformation();
+        console.log("youtube video changed");
+    }
+    if (data.youtube.music.url !== document.getElementById("youtubeMusicURL").href) {
+        getLatestYouTubeMusicInformation();
+        console.log("youtube music changed");
+    }
 }
 
 function updateOxygenSaturationBar(value) {
@@ -212,14 +221,20 @@ function setLastUpdatedTime() {
     var locationDate = new Date(data.location.lastUpdate);
     var netflixDate = new Date(data.netflix.lastWatched.lastUpdate);
     var valorantDate = new Date(data.valorant.lastUpdate);
+    var youtubeVideoDate = new Date(data.youtube.video.lastUpdate);
+    var youtubeMusicDate = new Date(data.youtube.music.lastUpdate);
 
     var locationDiff = Math.abs(dateNow - locationDate);
     var netflixDiff = Math.abs(dateNow - netflixDate);
     var valorantDiff = Math.abs(dateNow - valorantDate);
+    var youtubeVideoDiff = Math.abs(dateNow - youtubeVideoDate);
+    var youtubeMusicDiff = Math.abs(dateNow - youtubeMusicDate);
 
     var locationDiffSeconds = Math.floor(locationDiff / 1000);
     var netflixDiffSeconds = Math.floor(netflixDiff / 1000);
     var valorantDiffSeconds = Math.floor(valorantDiff / 1000);
+    var youtubeVideoDiffSeconds = Math.floor(youtubeVideoDiff / 1000);
+    var youtubeMusicDiffSeconds = Math.floor(youtubeMusicDiff / 1000);
 
     setLastUpdateTimeForLiveData();
 
@@ -260,6 +275,32 @@ function setLastUpdatedTime() {
     }
     else {
         document.getElementById("valorantLastUpdated").innerHTML = `${Math.floor(valorantDiffSeconds / 86400)} days ago`;
+    }
+
+    if (youtubeVideoDiffSeconds < 60) {
+        document.getElementById("youtubeVideoLastUpdated").innerHTML = `${youtubeVideoDiffSeconds} seconds ago`;
+    }
+    else if (youtubeVideoDiffSeconds < 3600) {
+        document.getElementById("youtubeVideoLastUpdated").innerHTML = `${Math.floor(youtubeVideoDiffSeconds / 60)} minutes ago`;
+    }
+    else if (youtubeVideoDiffSeconds < 86400) {
+        document.getElementById("youtubeVideoLastUpdated").innerHTML = `${Math.floor(youtubeVideoDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("youtubeVideoLastUpdated").innerHTML = `${Math.floor(youtubeVideoDiffSeconds / 86400)} days ago`;
+    }
+
+    if (youtubeMusicDiffSeconds < 60) {
+        document.getElementById("youtubeMusicLastUpdated").innerHTML = `${youtubeMusicDiffSeconds} seconds ago`;
+    }
+    else if (youtubeMusicDiffSeconds < 3600) {
+        document.getElementById("youtubeMusicLastUpdated").innerHTML = `${Math.floor(youtubeMusicDiffSeconds / 60)} minutes ago`;
+    }
+    else if (youtubeMusicDiffSeconds < 86400) {
+        document.getElementById("youtubeMusicLastUpdated").innerHTML = `${Math.floor(youtubeMusicDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("youtubeMusicLastUpdated").innerHTML = `${Math.floor(youtubeMusicDiffSeconds / 86400)} days ago`;
     }
 }
 
@@ -315,4 +356,18 @@ function setLastUpdateTimeForLiveData() {
     else {
         document.getElementById("speedLastUpdated").innerHTML = `${Math.floor(speedDiffSeconds / 86400)} days ago`;
     }
+}
+
+async function getLatestYouTubeVideoInformation() {
+    document.getElementById("youtubeVideoTitle").innerHTML = `${data.youtube.video.title}`;
+    document.getElementById("youtubeVideoChannel").innerHTML = `${data.youtube.video.channel}`;
+    document.getElementById("youtubeVideoURL").href = data.youtube.video.url;
+    document.getElementById("youtubeVideoThumbnail").src = data.youtube.video.thumbnail;
+}
+
+async function getLatestYouTubeMusicInformation() {
+    document.getElementById("youtubeMusicTitle").innerHTML = `${data.youtube.music.title}`;
+    document.getElementById("youtubeMusicArtist").innerHTML = `${data.youtube.music.artist}`;
+    document.getElementById("youtubeMusicURL").href = data.youtube.music.url;
+    document.getElementById("youtubeMusicThumbnail").src = data.youtube.music.thumbnail;
 }

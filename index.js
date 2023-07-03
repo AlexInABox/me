@@ -1,4 +1,5 @@
 var data;
+var withOrWithoutBy = Math.floor(Math.random() * 2) + 1; //random number between 1 and 2
 var localData = {
     "district": "Charlottenburg-Wilmersdorf",
     "city": "Berlin",
@@ -362,14 +363,22 @@ function setLastUpdateTimeForLiveData() {
 
 async function getLatestYouTubeVideoInformation() {
     document.getElementById("youtubeVideoTitle").innerHTML = `${data.youtube.video.title}`;
-    document.getElementById("youtubeVideoChannel").innerHTML = `${data.youtube.video.channel}`;
+    if (withOrWithoutBy === 1) {
+        document.getElementById("youtubeVideoChannel").innerHTML = `by: ${data.youtube.video.channel}`;
+    } else {
+        document.getElementById("youtubeVideoChannel").innerHTML = `${data.youtube.video.channel}`;
+    }
     document.getElementById("youtubeVideoURL").href = data.youtube.video.url;
     document.getElementById("youtubeVideoThumbnail").src = data.youtube.video.thumbnail;
 }
 
 async function getLatestYouTubeMusicInformation() {
     document.getElementById("youtubeMusicTitle").innerHTML = `${data.youtube.music.title}`;
-    document.getElementById("youtubeMusicArtist").innerHTML = `${data.youtube.music.artist}`;
+    if (withOrWithoutBy === 1) {
+        document.getElementById("youtubeMusicArtist").innerHTML = `by: ${data.youtube.music.artist}`;
+    } else {
+        document.getElementById("youtubeMusicArtist").innerHTML = `${data.youtube.music.artist}`;
+    }
     document.getElementById("youtubeMusicURL").href = data.youtube.music.url;
     document.getElementById("youtubeMusicThumbnail").src = data.youtube.music.thumbnail;
 }

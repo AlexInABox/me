@@ -71,6 +71,8 @@ async function patchRegularContent() {
         getLatestYouTubeMusicInformation();
         console.log("youtube music changed");
     }
+
+    setLastUpdatedTime();
 }
 
 function updateOxygenSaturationBar(value) {

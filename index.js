@@ -8,6 +8,7 @@ var localData = {
 }
 
 var lastNetflixShowId = "";
+var lastPlexName = "";
 initialize();
 async function initialize() {
     selectRandomMemoji();
@@ -18,6 +19,7 @@ async function initialize() {
     getLatestValorantInformation();
     getLatestYouTubeVideoInformation();
     getLatestYouTubeMusicInformation();
+    getLatestPlexInformation();
     setLastUpdatedTime();
     main();
 }
@@ -59,6 +61,11 @@ async function patchRegularContent() {
         lastNetflixShowId = data.netflix.lastWatched.showId;
         getLatestNetflixInformation();
         console.log("netflix changed");
+    }
+    if (data.plex.lastWatched.title !== lastPlexName) {
+        lastPlexName = data.plex.lastWatched.title;
+        getLatestPlexInformation();
+        console.log("plex changed");
     }
     if (data.valorant.username !== document.getElementById("valorant.username").innerHTML || data.valorant.rank + " - " + data.valorant.rr + " RR" !== document.getElementById("valorant.rank").innerHTML) {
         getLatestValorantInformation();
@@ -145,6 +152,11 @@ function getLatestNetflixInformation() {
     document.getElementById("netflixCoverLink").href = `https://www.netflix.com/title/${data.netflix.lastWatched.showId}`;
 }
 
+function getLatestPlexInformation() {
+    document.getElementById("plexShowName").innerHTML = `🎬 ${data.plex.lastWatched.title}`;
+    document.getElementById("plexCover").src = "/custom-hds" + data.plex.lastWatched.cover;
+    document.getElementById("plexCoverLink").href = data.plex.lastWatched.publicURL;
+}
 async function getLatestValorantInformation() {
     document.getElementById("valorant.username").innerHTML = `${data.valorant.username}`;
     var rr = (data.valorant.rr);
@@ -226,18 +238,21 @@ function setLastUpdatedTime() {
     var valorantDate = new Date(data.valorant.lastUpdate);
     var youtubeVideoDate = new Date(data.youtube.video.lastUpdate);
     var youtubeMusicDate = new Date(data.youtube.music.lastUpdate);
+    var plexDate = new Date(data.plex.lastWatched.lastUpdate);
 
     var locationDiff = Math.abs(dateNow - locationDate);
     var netflixDiff = Math.abs(dateNow - netflixDate);
     var valorantDiff = Math.abs(dateNow - valorantDate);
     var youtubeVideoDiff = Math.abs(dateNow - youtubeVideoDate);
     var youtubeMusicDiff = Math.abs(dateNow - youtubeMusicDate);
+    var plexDiff = Math.abs(dateNow - plexDate);
 
     var locationDiffSeconds = Math.floor(locationDiff / 1000);
     var netflixDiffSeconds = Math.floor(netflixDiff / 1000);
     var valorantDiffSeconds = Math.floor(valorantDiff / 1000);
     var youtubeVideoDiffSeconds = Math.floor(youtubeVideoDiff / 1000);
     var youtubeMusicDiffSeconds = Math.floor(youtubeMusicDiff / 1000);
+    var plexDiffSeconds = Math.floor(plexDiff / 1000);
 
     setLastUpdateTimeForLiveData();
 
@@ -265,6 +280,19 @@ function setLastUpdatedTime() {
     }
     else {
         document.getElementById("netflixLastUpdated").innerHTML = `${Math.floor(netflixDiffSeconds / 86400)} days ago`;
+    }
+
+    if (plexDiffSeconds < 60) {
+        document.getElementById("plexLastUpdated").innerHTML = `${plexDiffSeconds} seconds ago`;
+    }
+    else if (plexDiffSeconds < 3600) {
+        document.getElementById("plexLastUpdated").innerHTML = `${Math.floor(plexDiffSeconds / 60)} minutes ago`;
+    }
+    else if (plexDiffSeconds < 86400) {
+        document.getElementById("plexLastUpdated").innerHTML = `${Math.floor(plexDiffSeconds / 3600)} hours ago`;
+    }
+    else {
+        document.getElementById("plexLastUpdated").innerHTML = `${Math.floor(plexDiffSeconds / 86400)} days ago`;
     }
 
     if (valorantDiffSeconds < 60) {

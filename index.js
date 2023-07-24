@@ -137,7 +137,13 @@ function updateAllMeters() {
 function getLatestPositionSnapshot() {
     //set src of mapbox id to mapbox api server location using the longitude and latitude in the localData object
     document.getElementById("mapbox").src = `https://api.mapbox.com/styles/v1/alexinabox/clgw8e3rx003j01qth2z003ms/draft/static/${data.location.longitude},${data.location.latitude},11.3,0,35/500x500?access_token=pk.eyJ1IjoiYWxleGluYWJveCIsImEiOiJjbGd3ODh2YmswOTd1M2hwZ2RyY3E1Nnh6In0.YT0f1GOC9fGnLpS67CAOIw`;
-    document.getElementById("locationText").innerHTML = `📍 ${data.location.district}, ${data.location.country}`;
+
+    if (data.location.district) { //check if the district is defined or not null (empty string)
+        document.getElementById("locationText").innerHTML = `📍 ${data.location.district}, ${data.location.country}`;
+    }
+    else {
+        document.getElementById("locationText").innerHTML = `📍 ${data.location.city}, ${data.location.country}`;
+    }
 }
 
 function selectRandomMemoji() {

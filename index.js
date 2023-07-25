@@ -35,7 +35,7 @@ async function main() {
 async function fetchData() {
     console.log("getting data");
     return new Promise((obj) => {
-        fetch('./custom-hds/presence.json')
+        fetch('./custom-hds/presence.json', { cache: "no-store" })
             .then(res => res.json())
             .then(data => {
                 return obj(data)

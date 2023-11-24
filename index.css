@@ -1,5 +1,10 @@
 body {
     font-family: Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url(./assets/backround.gif) fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-color: rgba(135, 31, 31, 0.369);
     color: #fff;
 }
@@ -47,10 +52,6 @@ body {
 
 .wrapper {
     padding: 20px;
-    background: url(./assets/backround.gif);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;

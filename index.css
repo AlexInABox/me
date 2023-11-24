@@ -13,12 +13,15 @@ body {
     body {
         font-family: Roboto, sans-serif;
         background-color: rgba(135, 31, 31, 0.369);
+        background: url(./assets/backround.gif) fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
         color: #fff;
         zoom: 200%;
     }
 
     .card-title {
-        font-size: 28px;
+        font-size: 15px;
         font-weight: thin;
         margin-bottom: 16px;
         font-family: monospace;

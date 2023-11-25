@@ -1,7 +1,7 @@
 var data;
 var withOrWithoutBy = Math.floor(Math.random() * 2) + 1; //random number between 1 and 2
 var localData = {
-    "district": "Charlottenburg-Wilmersdorf",
+    "district": "Mitte",
     "city": "Berlin",
     "latitude": 52.5167,
     "longitude": 13.3833,
@@ -160,7 +160,7 @@ function getLatestNetflixInformation() {
 
 function getLatestPlexInformation() {
     document.getElementById("plexShowName").innerHTML = `🎬 ${data.plex.lastWatched.title}`;
-    document.getElementById("plexCover").src = "/me/custom-hds" + data.plex.lastWatched.cover;
+    document.getElementById("plexCover").src = "./custom-hds" + data.plex.lastWatched.cover;
     document.getElementById("plexCoverLink").href = data.plex.lastWatched.publicURL;
 }
 async function getLatestValorantInformation() {

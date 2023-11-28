@@ -242,3 +242,15 @@ body::before {
         transform: none;
     }
 }
+
+@media only screen and (orientation:portrait) {
+    #duolingoStreakXP {
+        font-size: 4em;
+        /* Adjust the font size as needed for mobile */
+    }
+
+    #duolingoUsername {
+        font-size: 4em;
+        /* Adjust the font size as needed for mobile */
+    }
+}

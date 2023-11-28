@@ -20,6 +20,7 @@ async function initialize() {
     getLatestYouTubeVideoInformation();
     getLatestYouTubeMusicInformation();
     getLatestPlexInformation();
+    getLatestDuolingoInformation();
     setLastUpdatedTime();
     main();
 }
@@ -30,6 +31,7 @@ async function main() {
     data = await fetchData();
     await patchLiveContent();
     await patchRegularContent();
+    updateAllMeters();
 }
 
 async function fetchData() {
@@ -163,15 +165,25 @@ function getLatestPlexInformation() {
     document.getElementById("plexCover").src = "./custom-hds" + data.plex.lastWatched.cover;
     document.getElementById("plexCoverLink").href = data.plex.lastWatched.publicURL;
 }
+
 async function getLatestValorantInformation() {
     document.getElementById("valorant.username").innerHTML = `${data.valorant.username}`;
     var rr = (data.valorant.rr);
     console.log(rr);
     document.getElementById("valorant.progress").setAttribute("data-value", rr);
-    updateAllMeters();
     document.getElementById("valorant.rank").innerHTML = `${data.valorant.rank} - ${data.valorant.rr} RR`;
     document.getElementById("valorant.rankIcon").setAttribute("xlink:href", await fetchRankIcon(data.valorant.rank));
     document.getElementById("valorant.mmrMeter").style.stroke = getColorForRank(data.valorant.rank);
+}
+
+function getLatestDuolingoInformation() {
+    document.getElementById("duolingoUsername").innerHTML = data.duolingo.username;
+    document.getElementById("duolingoAvatar").src = data.duolingo.avatar;
+
+
+    document.getElementById("duolingoLanguageFlag").src = data.duolingo.language_icon_URL;
+
+    document.getElementById("duolingoStreakXP").innerHTML = `${data.duolingo.streak}🔥- ${data.duolingo.xp} XP`;
 }
 
 async function fetchRankIcon(rank) {
@@ -245,6 +257,7 @@ function setLastUpdatedTime() {
     var youtubeVideoDate = new Date(data.youtube.video.lastUpdate);
     var youtubeMusicDate = new Date(data.youtube.music.lastUpdate);
     var plexDate = new Date(data.plex.lastWatched.lastUpdate);
+    var duolingoDate = new Date(data.duolingo.lastUpdate);
 
     var locationDiff = Math.abs(dateNow - locationDate);
     var netflixDiff = Math.abs(dateNow - netflixDate);
@@ -252,6 +265,8 @@ function setLastUpdatedTime() {
     var youtubeVideoDiff = Math.abs(dateNow - youtubeVideoDate);
     var youtubeMusicDiff = Math.abs(dateNow - youtubeMusicDate);
     var plexDiff = Math.abs(dateNow - plexDate);
+    var duolingoDiff = Math.abs(dateNow - duolingoDate);
+
 
     var locationDiffSeconds = Math.floor(locationDiff / 1000);
     var netflixDiffSeconds = Math.floor(netflixDiff / 1000);
@@ -259,6 +274,8 @@ function setLastUpdatedTime() {
     var youtubeVideoDiffSeconds = Math.floor(youtubeVideoDiff / 1000);
     var youtubeMusicDiffSeconds = Math.floor(youtubeMusicDiff / 1000);
     var plexDiffSeconds = Math.floor(plexDiff / 1000);
+    var duolingoDiffSeconds = Math.floor(duolingoDiff / 1000);
+
 
     setLastUpdateTimeForLiveData();
 
@@ -338,6 +355,16 @@ function setLastUpdatedTime() {
     }
     else {
         document.getElementById("youtubeMusicLastUpdated").innerHTML = `${Math.floor(youtubeMusicDiffSeconds / 86400)} days ago`;
+    }
+
+    if (duolingoDiffSeconds < 60) {
+        document.getElementById("duolingoLastUpdated").innerHTML = `${duolingoDiffSeconds} seconds ago`;
+    } else if (duolingoDiffSeconds < 3600) {
+        document.getElementById("duolingoLastUpdated").innerHTML = `${Math.floor(duolingoDiffSeconds / 60)} minutes ago`;
+    } else if (duolingoDiffSeconds < 86400) {
+        document.getElementById("duolingoLastUpdated").innerHTML = `${Math.floor(duolingoDiffSeconds / 3600)} hours ago`;
+    } else {
+        document.getElementById("duolingoLastUpdated").innerHTML = `${Math.floor(duolingoDiffSeconds / 86400)} days ago`;
     }
 }
 

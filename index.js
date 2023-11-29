@@ -183,7 +183,7 @@ function getLatestDuolingoInformation() {
 
     document.getElementById("duolingoLanguageFlag").src = data.duolingo.language_icon_URL;
 
-    document.getElementById("duolingoStreakXP").innerHTML = `${data.duolingo.streak}🔥- ${data.duolingo.xp} XP`;
+    document.getElementById("duolingoStreakXP").innerHTML = `${data.duolingo.streak}🔥 - ${data.duolingo.xp} XP`;
 }
 
 async function fetchRankIcon(rank) {

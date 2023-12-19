@@ -149,7 +149,7 @@ function getLatestPositionSnapshot() {
 }
 
 function selectRandomMemoji() {
-    var randomMemoji = Math.floor(Math.random() * 3) + 1; //random number between 1 and 3
+    var randomMemoji = Math.floor(Math.random() * 4) + 1; //random number between 1 and 4
     document.getElementById("memoji").src = `./assets/memoji_${randomMemoji}.png`;
 }
 

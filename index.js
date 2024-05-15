@@ -32,6 +32,22 @@ async function main() {
     await patchLiveContent();
     await patchRegularContent();
     updateAllMeters();
+    reorderElements();
+}
+
+function reorderElements() {
+    var wrapper = document.getElementsByClassName('wrapper')[0]
+    var cards = wrapper.getElementsByClassName('card')
+
+    var cardsArray = Array.from(cards);
+
+    cardsArray.sort(function (a, b) {
+        return parseInt(b.getAttribute('timestamp')) - parseInt(a.getAttribute('timestamp'));
+    });
+
+    cardsArray.forEach(function (box) {
+        wrapper.appendChild(box);
+    });
 }
 
 async function fetchData() {
@@ -47,9 +63,13 @@ async function fetchData() {
 
 async function patchLiveContent() {
     console.log("patching content");
-    document.getElementById("heartRate").innerHTML = data.health.heartRate + " BPM";
+    document.getElementById("heartRateValue").innerHTML = data.health.heartRate + " BPM";
+    document.getElementById("heartRate").setAttribute('timestamp', data.health.lastUpdate.heartRate)
+
     updateOxygenSaturationBar(data.health.oxygenSaturation);
-    document.getElementById("speed").innerHTML = data.health.speed + " m/s";
+    document.getElementById("speedValue").innerHTML = data.health.speed + " m/s";
+    document.getElementById("speed").setAttribute('timestamp', data.health.lastUpdate.speed)
+
 }
 
 async function patchRegularContent() {
@@ -110,6 +130,8 @@ function updateOxygenSaturationBar(value) {
         }
 
     }
+
+    document.getElementById("oxygenSaturation").setAttribute('timestamp', data.health.lastUpdate.oxygenSaturation)
 }
 
 function updateAllMeters() {
@@ -146,6 +168,8 @@ function getLatestPositionSnapshot() {
     else {
         document.getElementById("locationText").innerHTML = `📍 ${data.location.city}, ${data.location.country}`;
     }
+
+    document.getElementById("location").setAttribute('timestamp', data.location.lastUpdate)
 }
 
 function selectRandomMemoji() {
@@ -158,12 +182,15 @@ function getLatestNetflixInformation() {
     document.getElementById("netflixShowName").href = `https://www.netflix.com/title/${data.netflix.lastWatched.showId}`;
     document.getElementById("netflixCover").src = data.netflix.lastWatched.defaultImage;
     document.getElementById("netflixCoverLink").href = `https://www.netflix.com/title/${data.netflix.lastWatched.showId}`;
+    document.getElementById("netflix").setAttribute('timestamp', data.netflix.lastWatched.lastUpdate);
+
 }
 
 function getLatestPlexInformation() {
     document.getElementById("plexShowName").innerHTML = `🎬 ${data.plex.lastWatched.title}`;
     document.getElementById("plexCover").src = "./custom-hds" + data.plex.lastWatched.cover;
     document.getElementById("plexCoverLink").href = data.plex.lastWatched.publicURL;
+    document.getElementById("plex").setAttribute('timestamp', data.plex.lastWatched.lastUpdate);
 }
 
 async function getLatestValorantInformation() {
@@ -174,6 +201,7 @@ async function getLatestValorantInformation() {
     document.getElementById("valorant.rank").innerHTML = `${data.valorant.rank} - ${data.valorant.rr} RR`;
     document.getElementById("valorant.rankIcon").setAttribute("xlink:href", await fetchRankIcon(data.valorant.rank));
     document.getElementById("valorant.mmrMeter").style.stroke = getColorForRank(data.valorant.rank);
+    document.getElementById("valorant").setAttribute('timestamp', data.valorant.lastUpdate);
 }
 
 function getLatestDuolingoInformation() {
@@ -184,6 +212,7 @@ function getLatestDuolingoInformation() {
     document.getElementById("duolingoLanguageFlag").src = data.duolingo.language_icon_URL;
 
     document.getElementById("duolingoStreakXP").innerHTML = `${data.duolingo.streak}🔥 - ${data.duolingo.xp} XP`;
+    document.getElementById("duolingo").setAttribute('timestamp', data.duolingo.lastUpdate);
 }
 
 async function fetchRankIcon(rank) {
@@ -431,6 +460,8 @@ async function getLatestYouTubeVideoInformation() {
     }
     document.getElementById("youtubeVideoURL").href = data.youtube.video.url;
     document.getElementById("youtubeVideoThumbnail").src = data.youtube.video.thumbnail;
+
+    document.getElementById("youtube video").setAttribute('timestamp', data.youtube.video.lastUpdate);
 }
 
 async function getLatestYouTubeMusicInformation() {
@@ -442,4 +473,6 @@ async function getLatestYouTubeMusicInformation() {
     }
     document.getElementById("youtubeMusicURL").href = data.youtube.music.url;
     document.getElementById("youtubeMusicThumbnail").src = data.youtube.music.thumbnail;
+
+    document.getElementById("youtube music").setAttribute('timestamp', data.youtube.music.lastUpdate);
 }
